@@ -87,19 +87,38 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/lL_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/lL_desc"
+            android:background="@drawable/bg_bottom_landing"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="50dp"/>
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/lL_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_left"
             android:layout_marginRight="@dimen/margin_right"
             android:layout_below="@+id/lL_cb"
-            android:layout_marginTop="15dp"
             android:orientation="horizontal">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:layout_weight="1"
+                    android:layout_gravity="bottom"
                     android:text="@string/lbl_items_left" />
 
                 <TextView
@@ -111,23 +130,6 @@
                     android:paddingRight="10dp"
                     android:paddingBottom="10dp"
                     android:gravity="right"
-                    android:textColor="@color/white"
                     android:text="@string/lbl_clear" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/lL_main"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/lL_desc"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/bg_bottom_landing"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:orientation="vertical">
-
-
-
         </LinearLayout>
 </RelativeLayout>
