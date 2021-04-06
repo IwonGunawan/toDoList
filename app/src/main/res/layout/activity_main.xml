@@ -25,7 +25,7 @@
             android:text="@string/tv_title" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_text"
+            android:id="@+id/til_note"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_toStartOf="@+id/lL_date"
@@ -35,7 +35,7 @@
             android:layout_below="@+id/tv_title"
             android:hint="@string/hint_todo">
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tv_text"
+                    android:id="@+id/tv_note"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -98,7 +98,7 @@
             android:orientation="vertical">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_home"
+                    android:id="@+id/rv_main"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -114,6 +114,7 @@
             android:layout_below="@+id/lL_cb"
             android:orientation="horizontal">
                 <TextView
+                    android:id="@+id/tv_desc_left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -122,6 +123,7 @@
                     android:text="@string/lbl_items_left" />
 
                 <TextView
+                    android:id="@+id/tv_desc_clear"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/btn_line"
