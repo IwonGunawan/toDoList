@@ -57,7 +57,7 @@
                     android:layout_gravity="center_vertical"
                     android:textSize="14sp"
                     android:layout_marginLeft="10dp"
-                    android:text="mm/dd/yyyy" />
+                    android:text="mm-dd-yyyy" />
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/lL_desc"
             android:background="@drawable/bg_bottom_landing"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="7dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:orientation="vertical">

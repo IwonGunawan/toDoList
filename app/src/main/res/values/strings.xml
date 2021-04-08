@@ -6,4 +6,5 @@
     <string name="hint_todo">What will you do</string>
     <string name="lbl_items_left">2 items left</string>
     <string name="lbl_clear">Clear 1 completed item</string>
+    <string name="lbl_submit">Submit</string>
 </resources>
