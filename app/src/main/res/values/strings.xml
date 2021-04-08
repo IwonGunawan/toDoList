@@ -4,7 +4,7 @@
     <string name="tv_title">Your Task List</string>
     <string name="lbl_mark_all">Mark all as complete</string>
     <string name="hint_todo">What will you do</string>
-    <string name="lbl_items_left">2 items left</string>
+    <string name="lbl_items_left">items left</string>
     <string name="lbl_clear">Clear 1 completed item</string>
     <string name="lbl_submit">Submit</string>
 </resources>

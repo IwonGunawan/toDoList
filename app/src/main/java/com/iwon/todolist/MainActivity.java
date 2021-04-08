@@ -2,6 +2,8 @@ package com.iwon.todolist;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -9,29 +11,36 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textfield.TextInputEditText;
+import com.iwon.todolist.adapter.TodoAdapter;
 import com.iwon.todolist.helper.DbHelper;
 import com.iwon.todolist.utils.*;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity{
     private static final String TAG = "track_todo";
 
     TextInputEditText tvNote;
     LinearLayout lLDate;
     MaterialCalendarView mcv;
+    RecyclerView recyclerView;
     Button btnSubmit;
+    TextView tvDescLeft;
     String sNote;
     String sDate;
 
     DbHelper dbHelper = new DbHelper(this);
+    TodoAdapter todoAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,23 +49,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         tvNote = findViewById(R.id.tv_note);
         lLDate = findViewById(R.id.lL_date);
+        recyclerView = findViewById(R.id.recycleview);
+        tvDescLeft = findViewById(R.id.tv_desc_left);
 
-        lLDate.setOnClickListener(this);
+        lLDate.setOnClickListener(view -> showDatePicker());
+        getAllData();
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.lL_date:
-                showDatePicker();
-                break;
+    private void getAllData(){
+        ArrayList<HashMap<String, String>> list = dbHelper.allData();
+        todoAdapter = new TodoAdapter(list);
+        recyclerView.setAdapter(todoAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-            default:
-                break;
-        }
+        totalData(list.size());
     }
 
-    void showDatePicker(){
+    private void showDatePicker(){
         BottomSheetDialog dialog = new BottomSheetDialog(this);
         dialog.setContentView(R.layout.dialog_calendar);
         dialog.show();
@@ -89,11 +98,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (!sNote.equals(null) || !sDate.equals(null)){
             // save data
             dbHelper.save(sNote, sDate);
+            showMessage("Your note has been SAVED");
+            getAllData();
             clear();
         } else {
-            Toast.makeText(this, "Please fill NOTE and DATE", Toast.LENGTH_SHORT).show();
+            showMessage("Please fill NOTE and DATE");
         }
     }
+
+    private void totalData(int total){
+        tvDescLeft.setText(total + " " + getResources().getString(R.string.lbl_items_left));
+    }
+
 
     private String[] getToday() {
         String[] result = new String[3];
@@ -104,6 +120,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         result[2] = (String) DateFormat.format("dd", today);
 
         return result;
+    }
+
+    private void showMessage(String message){
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     private void clear(){

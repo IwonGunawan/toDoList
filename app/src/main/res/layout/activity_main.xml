@@ -21,7 +21,7 @@
             android:textStyle="bold"
             android:textSize="@dimen/title_size"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="15dp"
             android:text="@string/tv_title" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -82,56 +82,57 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
                     android:text="@string/lbl_mark_all" />
         </LinearLayout>
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tv_desc_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:layout_gravity="bottom"
+            android:layout_below="@+id/lL_cb"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            android:textColor="@color/white"
+            android:hint="@string/lbl_items_left" />
+
+        <RelativeLayout
             android:id="@+id/lL_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/lL_desc"
+            android:layout_below="@+id/tv_desc_left"
             android:background="@drawable/bg_bottom_landing"
             android:layout_marginTop="7dp"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:orientation="vertical">
+            android:layout_marginRight="5dp">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_main"
+                    android:id="@+id/recycleview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_above="@+id/btn_clear"
+                    android:layout_marginTop="15dp"/>
+                <Button
+                    android:id="@+id/btn_clear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="50dp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/lL_desc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_left"
-            android:layout_marginRight="@dimen/margin_right"
-            android:layout_below="@+id/lL_cb"
-            android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/tv_desc_left"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="1"
-                    android:layout_gravity="bottom"
-                    android:text="@string/lbl_items_left" />
-
-                <TextView
-                    android:id="@+id/tv_desc_clear"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/btn_line"
+                    android:background="@drawable/btn_line_clear"
                     android:paddingLeft="10dp"
                     android:paddingTop="10dp"
                     android:paddingRight="10dp"
                     android:paddingBottom="10dp"
-                    android:gravity="right"
+                    android:layout_marginRight="50dp"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_centerHorizontal="true"
+                    android:textAlignment="center"
+                    android:layout_alignParentBottom="true"
+                    android:textColor="@android:color/holo_red_dark"
                     android:text="@string/lbl_clear" />
-        </LinearLayout>
+        </RelativeLayout>
 </RelativeLayout>
