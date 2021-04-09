@@ -21,7 +21,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.iwon.todolist.adapter.TodoAdapter;
 import com.iwon.todolist.helper.DbHelper;
 import com.iwon.todolist.helper.TodoInterface;
-import com.iwon.todolist.utils.*;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
@@ -31,7 +30,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements TodoInterface {
-    private static final String TAG = "track_todo";
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     TextInputEditText tvNote;
     LinearLayout lLDate;
