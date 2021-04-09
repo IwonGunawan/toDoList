@@ -9,6 +9,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.iwon.todolist.R;
+import com.iwon.todolist.helper.TodoInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,11 +23,21 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
 
     ArrayList<HashMap<String, String>> list;
     ArrayList<Integer> checkList = new ArrayList<>();
+    String id;
     String sNote;
     String sDate;
+    TodoInterface todoInterface;
+    boolean allDataChecked = false;
 
-    public TodoAdapter(ArrayList<HashMap<String, String>> list) {
+    public TodoAdapter(ArrayList<HashMap<String, String>> list, TodoInterface todoInterface) {
         this.list = list;
+        this.todoInterface = todoInterface;
+    }
+
+    public TodoAdapter(ArrayList<HashMap<String, String>> list, TodoInterface todoInterface, Boolean allDataChecked) {
+        this.list = list;
+        this.todoInterface = todoInterface;
+        this.allDataChecked = allDataChecked;
     }
 
     @NonNull
@@ -38,22 +49,28 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        id = list.get(position).get("id");
         sNote = list.get(position).get("note");
         sDate = list.get(position).get("date");
 
         holder.tvNote.setText(sNote);
         holder.tvDate.setText(sDate);
+        if (allDataChecked){
+            holder.cbDone.setChecked(true);
+        }
         holder.cbDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                int idChecked = Integer.parseInt(list.get(position).get("id"));
 
                 if (isChecked){
-                    checkList.add(position);
+                    checkList.add(idChecked);
                 } else {
-                    checkList.remove(new Integer(position));
+                    checkList.remove(new Integer(idChecked));
                 }
                 Log.d(TAG, " " + checkList);
 
+                todoInterface.onRespCB(checkList);
             }
         });
     }

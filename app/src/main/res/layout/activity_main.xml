@@ -133,6 +133,7 @@
                     android:textAlignment="center"
                     android:layout_alignParentBottom="true"
                     android:textColor="@android:color/holo_red_dark"
-                    android:text="@string/lbl_clear" />
+                    android:visibility="gone"
+                    android:hint="@string/lbl_clear" />
         </RelativeLayout>
 </RelativeLayout>

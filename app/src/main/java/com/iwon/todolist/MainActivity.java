@@ -10,6 +10,8 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +20,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textfield.TextInputEditText;
 import com.iwon.todolist.adapter.TodoAdapter;
 import com.iwon.todolist.helper.DbHelper;
+import com.iwon.todolist.helper.TodoInterface;
 import com.iwon.todolist.utils.*;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
@@ -27,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity implements TodoInterface {
     private static final String TAG = "track_todo";
 
     TextInputEditText tvNote;
@@ -38,9 +41,13 @@ public class MainActivity extends AppCompatActivity{
     TextView tvDescLeft;
     String sNote;
     String sDate;
+    CheckBox cbMarkComplete;
 
+    ArrayList<HashMap<String, String>> list = new ArrayList<>();
+    ArrayList<Integer> checkList = new ArrayList<>();
     DbHelper dbHelper = new DbHelper(this);
     TodoAdapter todoAdapter;
+    boolean allDataChecked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,21 +59,37 @@ public class MainActivity extends AppCompatActivity{
         lLDate = findViewById(R.id.lL_date);
         recyclerView = findViewById(R.id.recycleview);
         btnClear = findViewById(R.id.btn_clear);
+        cbMarkComplete = findViewById(R.id.cb_mark_complete);
 
         getAllData();
         lLDate.setOnClickListener(view -> showDatePicker());
         btnClear.setOnClickListener(view -> removeItem());
+        cbMarkComplete.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                markAllComplete(isChecked);
+            }
+        });
+    }
+
+    private void refresh(){
+        getAllData();
     }
 
     private void getAllData(){
-        ArrayList<HashMap<String, String>> list = dbHelper.allData();
-        todoAdapter = new TodoAdapter(list);
+        list = dbHelper.allData();
+        todoAdapter = null;
+        if (allDataChecked){
+            todoAdapter = new TodoAdapter(list, this, true);
+        } else {
+            todoAdapter = new TodoAdapter(list, this);
+        }
+
         recyclerView.setAdapter(todoAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
-
         totalData(list.size());
+        showBtnClear();
     }
 
     private void showDatePicker(){
@@ -115,8 +138,45 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void removeItem(){
-        showMessage("remove item");
+        if (checkList.size() > 0){
+            int checkListLength = checkList.size();
+
+            for (int i=0; i < checkListLength; i++){
+                Log.d(TAG, "removeItem: " + checkList.get(i));
+                dbHelper.delete(checkList.get(i));
+
+                if (i == (checkListLength -1)){
+                    showMessage("Data DELETED!");
+                    clearDataTemp();
+                    refresh();
+                }
+            }
+        }
     }
+
+    private void markAllComplete(boolean isChecked){
+        if (list.size() > 0){
+            if (isChecked){
+                allDataChecked = true;
+                // store ID to checklist
+                for (int i=0; i < list.size(); i++){
+                    checkList.add(Integer.parseInt(list.get(i).get("id")));
+                }
+                showBtnClear();
+                cbMarkComplete.setChecked(false);
+
+            } else {
+                allDataChecked = false;
+                // clear
+                clearDataTemp();
+                showBtnClear();
+            }
+            getAllData();
+        } else {
+            showMessage("no data available");
+        }
+    }
+
 
     private String[] getToday() {
         String[] result = new String[3];
@@ -139,12 +199,30 @@ public class MainActivity extends AppCompatActivity{
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
+    private void showBtnClear(){
+        if (checkList.size() > 0){
+            btnClear.setVisibility(View.VISIBLE);
+            String text = "Clear " + checkList.size() + " completed item";
+            btnClear.setText(text);
+        } else {
+            btnClear.setVisibility(View.GONE);
+        }
+    }
+
+    private void clearDataTemp(){
+        checkList = new ArrayList<>();
+    }
+
     private void clear(){
         tvNote.setText(null);
         sNote = null;
         sDate = null;
     }
 
-
-
+    @Override
+    public void onRespCB(ArrayList<Integer> checkList) {
+        Log.d(TAG, "onRespCB: " + checkList);
+        this.checkList = checkList;
+        showBtnClear();
+    }
 }
