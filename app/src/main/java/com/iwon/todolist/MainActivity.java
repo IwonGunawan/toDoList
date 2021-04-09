@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity{
     LinearLayout lLDate;
     MaterialCalendarView mcv;
     RecyclerView recyclerView;
-    Button btnSubmit;
+    Button btnSubmit, btnClear;
     TextView tvDescLeft;
     String sNote;
     String sDate;
@@ -48,12 +48,14 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
 
         tvNote = findViewById(R.id.tv_note);
+        tvDescLeft = findViewById(R.id.tv_desc_left);
         lLDate = findViewById(R.id.lL_date);
         recyclerView = findViewById(R.id.recycleview);
-        tvDescLeft = findViewById(R.id.tv_desc_left);
+        btnClear = findViewById(R.id.btn_clear);
 
-        lLDate.setOnClickListener(view -> showDatePicker());
         getAllData();
+        lLDate.setOnClickListener(view -> showDatePicker());
+        btnClear.setOnClickListener(view -> removeItem());
     }
 
     private void getAllData(){
@@ -61,6 +63,8 @@ public class MainActivity extends AppCompatActivity{
         todoAdapter = new TodoAdapter(list);
         recyclerView.setAdapter(todoAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
 
         totalData(list.size());
     }
@@ -82,7 +86,7 @@ public class MainActivity extends AppCompatActivity{
         mcv.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-                sDate = (date.getMonth() +1 ) + "-" + date.getDay() + "-" + date.getYear();
+                sDate = monthLbl(date.getMonth()) + " " + date.getDay() + ", " + date.getYear();
             }
         });
 
@@ -95,7 +99,7 @@ public class MainActivity extends AppCompatActivity{
     private void submit(){
         sNote = tvNote.getText().toString();
 
-        if (!sNote.equals(null) || !sDate.equals(null)){
+        if (sNote != null && sDate != null){
             // save data
             dbHelper.save(sNote, sDate);
             showMessage("Your note has been SAVED");
@@ -110,6 +114,9 @@ public class MainActivity extends AppCompatActivity{
         tvDescLeft.setText(total + " " + getResources().getString(R.string.lbl_items_left));
     }
 
+    private void removeItem(){
+        showMessage("remove item");
+    }
 
     private String[] getToday() {
         String[] result = new String[3];
@@ -120,6 +127,12 @@ public class MainActivity extends AppCompatActivity{
         result[2] = (String) DateFormat.format("dd", today);
 
         return result;
+    }
+
+    private String monthLbl(int i){
+        String[] montList = getResources().getStringArray(R.array.month_list);
+
+        return montList[i];
     }
 
     private void showMessage(String message){

@@ -52,7 +52,7 @@ public class DbHelper extends SQLiteOpenHelper {
         ArrayList<HashMap<String, String>> wordList = new ArrayList<HashMap<String, String>>();
 
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + TB_TODO;
+        String query = "SELECT * FROM " + TB_TODO + " ORDER BY " + COLUMN_ID + " DESC";
         Log.d(TAG, "allData: " + query);
         Cursor cursor = db.rawQuery(query, null);
 

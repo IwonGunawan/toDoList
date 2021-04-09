@@ -1,22 +1,27 @@
 package com.iwon.todolist.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.iwon.todolist.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
+    private static final String TAG = TodoAdapter.class.getSimpleName();
 
     ArrayList<HashMap<String, String>> list;
+    ArrayList<Integer> checkList = new ArrayList<>();
     String sNote;
     String sDate;
 
@@ -38,6 +43,19 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
 
         holder.tvNote.setText(sNote);
         holder.tvDate.setText(sDate);
+        holder.cbDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+
+                if (isChecked){
+                    checkList.add(position);
+                } else {
+                    checkList.remove(new Integer(position));
+                }
+                Log.d(TAG, " " + checkList);
+
+            }
+        });
     }
 
     @Override
@@ -57,4 +75,5 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
             tvDate = itemView.findViewById(R.id.tv_date);
         }
     }
+
 }

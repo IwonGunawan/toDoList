@@ -7,4 +7,18 @@
     <string name="lbl_items_left">items left</string>
     <string name="lbl_clear">Clear 1 completed item</string>
     <string name="lbl_submit">Submit</string>
+    <string-array name="month_list">
+        <item>Jan</item>
+        <item>Feb</item>
+        <item>Mar</item>
+        <item>Apr</item>
+        <item>Mey</item>
+        <item>Jun</item>
+        <item>Jul</item>
+        <item>Agu</item>
+        <item>Sep</item>
+        <item>Okt</item>
+        <item>Nov</item>
+        <item>Des</item>
+    </string-array>
 </resources>
