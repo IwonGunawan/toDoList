@@ -163,7 +163,6 @@ public class MainActivity extends AppCompatActivity implements TodoInterface {
                     checkList.add(Integer.parseInt(list.get(i).get("id")));
                 }
                 showBtnClear();
-                cbMarkComplete.setChecked(false);
 
             } else {
                 allDataChecked = false;
@@ -211,6 +210,7 @@ public class MainActivity extends AppCompatActivity implements TodoInterface {
 
     private void clearDataTemp(){
         checkList = new ArrayList<>();
+        allDataChecked = false;
     }
 
     private void clear(){
